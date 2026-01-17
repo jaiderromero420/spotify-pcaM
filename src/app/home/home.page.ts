@@ -44,8 +44,8 @@ export class HomePage {
       description: "Un subgénero del rock, caracterizado por su alta distorsión de guitarra, ritmos potentes y a menudo letras oscuras o épicas. Existen muchos subgéneros dentro del metal, como el heavy metal, thrash metal, death metal y black metal, cada uno con sus propias características distintivas."
     },
     {
-      title: "Reaggueton",
-      image: "https://i.ytimg.com/vi/ueltGC-O2Gs/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLA7O6HAvo3W_AUJJgE6syrbuU7RRQ",
+      title: "Reggaeton",
+      image: "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da8428b9288398c47498847be403",
       description: "Género musical originario de Panamá y Puerto Rico en la década de 1990. Combina elementos del reggae, dancehall y hip hop con ritmos electrónicos y letras en español. Se caracteriza por su ritmo bailable y su fuerte influencia en la cultura latina."
     },
   ]
