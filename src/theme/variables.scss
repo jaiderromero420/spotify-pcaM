@@ -1,8 +1,31 @@
-// For information on how to create your own theme, please refer to:
-// https://ionicframework.com/docs/theming/
-:root{
---color-claro: #f80707;
---color-oscuro: #00ff37;
- --espaciado-base: 1rem;
---espaciado-grande: 2rem;
+
+
+:root {
+ 
+  --page-background: #ffffff;
+  --page-text: #000000;
+  
+  
+  --color-claro: #f80707;
+  --color-oscuro: #00ff37;
+  
+  --espaciado-base: 1rem;
+  --espaciado-grande: 2rem;
+
+  
+  --color-fondo-tarjeta: #ffffff;
+  --color-texto-tarjeta: #333333;
+  --color-slide-title: #000000;
+  --color-hola-mundo: #f0f0f0; 
+}
+
+
+.dark-theme {
+  --page-background: #121212;   
+  --page-text: #ffffff;         
+  
+  --color-fondo-tarjeta: #1e1e1e; 
+  --color-texto-tarjeta: #e0e0e0;
+  --color-slide-title: #ff9100;   
+  --color-hola-mundo: #333333;
 }

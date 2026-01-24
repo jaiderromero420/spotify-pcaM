@@ -1,36 +1,58 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      Home
-    </ion-title>
+    <ion-title>Home</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <swiper-container 
-  pagination="true"
-  loop="true"
-  slides-per-view="1"
-  >
-  <swiper-slide *ngFor="let genre of genres">
-    <div class="slide-content {{genre.class}}">
-      <h2>{{ genre.title }}</h2>
-      <img [src]="genre.image" [alt]="genre.title">
-      <p>{{ genre.description }}</p>
-    </div>
-  </swiper-slide>
-</swiper-container>
-<div class="card">
- hola mundo 
-</div>
-<ion-card class="bg-card-test">
-  <ion-card-header>
-    <ion-card-title>Card Title</ion-card-title>
-    <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
-  </ion-card-header>
+<ion-content [class.dark-theme]="isDarkTheme" class="transition-wrapper">
+  
+  <swiper-container pagination="true" loop="true" slides-per-view="1">
+    <swiper-slide *ngFor="let genre of genres">
+      <div class="slide-content {{genre.class}}">
+        <h2>{{ genre.title }}</h2>
+        <img [src]="genre.image" [alt]="genre.title">
+        <p>{{ genre.description }}</p>
+      </div>
+    </swiper-slide>
+  </swiper-container>
 
-  <ion-card-content>
-    Here's a small text description for the card content. Nothing more, nothing less.
-  </ion-card-content>
-</ion-card>
+  <div class="hola-mundo-box" [style.background-color]="colorActual">
+    <h3>Hola Mundo</h3>
+  </div>
+
+  <div class="ion-padding-horizontal">
+    <ion-button expand="block" (click)="cambiarColor()">
+      Cambiar de tema
+    </ion-button>
+  </div>
+
+  <ion-card class="bg-card-test">
+    <ion-card-header>
+      <ion-card-title>Card Title</ion-card-title>
+      <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      Here's a small text description for the card content. Nothing more, nothing less.
+    </ion-card-content>
+  </ion-card>
+  
+  <div class="ion-padding">
+    <h3>Demo Ionic Storage</h3>
+      <div class="hola-mundo-box" [style.background-color]="colorActual">  
+        <p><strong>Tema Actual:</strong> {{ colorActual === colorOscuro ? 'Oscuro' : 'Claro'}}</p> 
+      </div>
+      
+      <ion-button expand="block" color="secondary" (click)="cambiarColor()">
+        Cambiar tema y guardar
+      </ion-button>
+  <div class="ion-padding ion-margin-top">
+  <ion-button expand="block" color="tertiary" (click)="verIntroNuevamente()">
+    Ver Intro Nuevamente
+  </ion-button>
+  </div>  
+  
+    </div>
+  <p class="ion-text-center">Texto Centrado</p>
+  <p class="ion-text-left">Texto a la izquierda</p>
+  <p class="ion-text-right">Texto a la derecha</p>
 </ion-content>

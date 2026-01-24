@@ -1,9 +1,16 @@
+
+ion-content {
+  --background: var(--page-background);
+  --color: var(--page-text);
+}
+
 .slide-content {
   text-align: center;
   padding: 10px;
+  background-color: transparent; 
 }
 
-.slide-content img{
+.slide-content img {
   width: 100%;
   max-width: 300px;
   height: auto;
@@ -14,23 +21,103 @@
 .slide-content h2 {
   margin: 0;
   font-size: 2.5rem;
-  color:chocolate;
+  
+  color: var(--color-slide-title);
+  transition: color 0.3s ease;
 }
 
-.slide-content p{
+.slide-content p {
   font-size: 20px;
-  color: #aa4f04d0;
+ 
+  color: var(--page-text); 
   text-align: justify;
 }
 
-.card{
-  padding: car (--espaciado-grande);
-  background-color: var(--color-oscuro);
+
+ion-card.bg-card-test {
+  
+  --background: var(--color-fondo-tarjeta);
+  --color: var(--color-texto-tarjeta);
+  
+  margin-top: var(--espaciado-grande); 
+  
+  padding: var(--espaciado-base); 
+  
+  transition: all 0.3s ease;
+  
+  ion-card-title {
+    color: var(--color-slide-title);
+  }
 }
 
-.bg-card-test {
-  background: #ff9100;
+.fondo {
+  
+  background: var(--page-background); 
+
+ion-content {
+  --background: var(--page-background);
+  --color: var(--page-text);
+ 
+  --transition: background 0.5s ease-in-out, color 0.5s ease-in-out; 
 }
-.fondo{
-  background: #fff;
+
+
+.hola-mundo-box {
+  padding: 20px;
+  margin: 20px 0;
+  border-radius: 15px; 
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.2rem;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1); 
+  
+ 
+  transition: background-color 0.5s ease;
+  
+ 
+  color: #333; 
+}
+
+
+.slide-content {
+  text-align: center;
+  padding: 10px;
+  border-radius: 10px;
+  transition: all 0.5s ease; 
+
+  img {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    border-radius: 10px;
+    margin: 10% 0;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  }
+
+  h2 {
+    margin: 0;
+    font-size: 2.5rem;
+    color: var(--color-slide-title);
+    transition: color 0.5s ease; 
+  }
+
+  p {
+    font-size: 20px;
+    color: var(--page-text);
+    text-align: justify;
+    transition: color 0.5s ease;
+  }
+}
+
+
+.bg-card-test {
+  --background: var(--color-fondo-tarjeta);
+  --color: var(--color-texto-tarjeta);
+  transition: all 0.5s ease; 
+  margin-top: 2rem;
+  
+  ion-card-title {
+    color: var(--color-slide-title);
+  }
+}
 }
