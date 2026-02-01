@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { StorageService } from './storage-service'; // Asegúrate de importar tu servicio de storage
+import { StorageService } from './storage-service'; 
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +14,7 @@ export class AuthService {
         credentials.email === "yo@gmail.com" &&
         credentials.password === "12345"
       ) {
-        // Guardamos sesión
+       
         this.storage.set('isUserLoggedIn', true);
         accept("Login correcto");
       } else {
@@ -25,9 +25,9 @@ export class AuthService {
 
   registerUser(userData: any) {
     return new Promise((accept, reject) => {
-      // Simulamos una validación simple
+      
       if (userData.password.length >= 5) {
-        // Guardamos los datos del usuario en el storage
+        
         this.storage.set('user_data', userData);
         accept("Registro exitoso");
       } else {

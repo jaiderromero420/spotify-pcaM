@@ -13,8 +13,7 @@ import { StorageService } from '../services/storage-service';
 })
 export class IntroPage implements OnInit {
 
-  // Usamos imágenes online para que te funcionen YA MISMO.
-  // Si quieres usar locales, cambia el link por 'assets/images/tu_foto.png'
+
   slides = [
     { 
       title: "Bienvenido", 
@@ -46,11 +45,10 @@ export class IntroPage implements OnInit {
   async finalizarIntro() {
     console.log("Botón presionado: Guardando y saliendo...");
     
-    // 1. Guardamos que ya vio la intro
+   
     await this.storage.set('intro_visto', true);
     
-    // 2. Navegamos al LOGIN (porque no ha iniciado sesión aun)
-    // Usamos navigateRoot para que no pueda volver atrás a la intro
+
     this.navCtrl.navigateRoot('/login'); 
   }
 }

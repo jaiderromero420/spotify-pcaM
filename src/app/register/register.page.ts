@@ -51,7 +51,7 @@ export class RegisterPage implements OnInit {
   ngOnInit() { }
 
   goToLogin() {
-    this.navCtrl.navigateBack('/login'); // Volver atrás
+    this.navCtrl.navigateBack('/login'); 
   }
 
   async registerUser() {
@@ -59,7 +59,7 @@ export class RegisterPage implements OnInit {
       try {
         await this.authService.registerUser(this.registerForm.value);
         this.presentToast('Registro exitoso. Inicia sesión.', 'success');
-        this.navCtrl.navigateBack('/login'); // Mandar al login
+        this.navCtrl.navigateBack('/login'); 
       } catch (error) {
         this.presentToast('Error al registrar.', 'danger');
       }

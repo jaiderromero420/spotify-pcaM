@@ -17,7 +17,7 @@ export class LoginPage implements OnInit {
   loginForm: FormGroup;
   errorMessage: string = ""; 
 
-  // Mensajes de validación
+
   validation_messages = {
     email: [
       { type: "required", message: "El correo es obligatorio." },
@@ -50,41 +50,41 @@ export class LoginPage implements OnInit {
 
   ngOnInit() {}
 
-  // --- NUEVA FUNCIÓN: Ir al registro ---
+  
   goToRegister() {
     this.navCtrl.navigateForward('/register');
   }
 
-  // --- FUNCIÓN PRINCIPAL DE LOGIN (Modificada) ---
+ 
   async onLogin() {
-    // 1. Verificamos si el formulario visualmente está bien
+   
     if (this.loginForm.valid) {
       
-      // 2. Llamamos al servicio de autenticación con los datos del form
+      
       this.authService.loginUser(this.loginForm.value)
         .then(async (res) => {
-          // CASO ÉXITO:
+         
           this.errorMessage = "";
           await this.presentToast('¡Bienvenido! Iniciando sesión...', 'success');
           
-          // Navegamos al Home
+         
           this.navCtrl.navigateForward('/home'); 
         })
         .catch(async (error) => {
-          // CASO ERROR (Contraseña incorrecta o usuario no existe):
+        
           this.errorMessage = error;
           await this.presentToast('Error: ' + error, 'danger');
         });
 
     } else {
-      // 3. Si el formulario está incompleto
+     
       console.log('Formulario inválido');
       await this.presentToast('Por favor, revisa los campos.', 'danger');
       this.loginForm.markAllAsTouched(); 
     }
   }
 
-  // Helper para mostrar notificaciones
+
   async presentToast(message: string, color: 'success' | 'danger' | 'warning' = 'success') {
     const toast = await this.toastController.create({
       message: message,
