@@ -1,0 +1,74 @@
+<ion-content [fullscreen]="true">
+  
+  <div class="login-container">
+    
+    <div class="avatar-wrapper">
+      <ion-avatar>
+        <img src="assets/image/user.png" alt="User Avatar">
+      </ion-avatar>
+    </div>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+      
+      <div class="inputs-wrapper">
+        
+        <ion-item lines="none" class="windows-input">
+          <ion-icon slot="start" name="person-circle-outline"></ion-icon>
+          <ion-input 
+            label="Correo electrónico" 
+            label-placement="floating"
+            formControlName="email" 
+            type="email">
+          </ion-input>
+        </ion-item>
+
+        <div class="error-container">
+          <ng-container *ngFor="let validation of validation_messages.email">
+            <div class="error-message" *ngIf="loginForm.get('email')?.hasError(validation.type) && (loginForm.get('email')?.dirty || loginForm.get('email')?.touched)">
+              <ion-icon name="alert-circle-outline"></ion-icon>
+              {{ validation.message }}
+            </div>
+          </ng-container>
+        </div>
+
+        <ion-item lines="none" class="windows-input">
+          <ion-icon slot="start" name="key-outline"></ion-icon>
+          <ion-input 
+            label="Contraseña" 
+            label-placement="floating"
+            formControlName="password" 
+            type="password">
+            <ion-input-password-toggle slot="end"></ion-input-password-toggle>
+          </ion-input>
+        </ion-item>
+
+        <div class="error-container">
+          <ng-container *ngFor="let validation of validation_messages.password">
+            <div class="error-message" *ngIf="loginForm.get('password')?.hasError(validation.type) && (loginForm.get('password')?.dirty || loginForm.get('password')?.touched)">
+              <ion-icon name="alert-circle-outline"></ion-icon>
+              {{ validation.message }}
+            </div>
+          </ng-container>
+        </div>
+
+      </div>
+
+      <div class="button-wrapper">
+        <ion-button type="submit" [disabled]="!loginForm.valid" shape="round">
+          Iniciar Sesión
+          <ion-icon slot="end" name="arrow-forward"></ion-icon>
+        </ion-button>
+      </div>
+
+    </form>
+
+  </div>
+  {{ errorMessage }}
+
+  <div class="ion-text-center ion-margin-top">
+  <ion-button fill="clear" size="small" (click)="goToRegister()">
+    ¿No tienes cuenta? Regístrate
+  </ion-button>
+</div>
+
+</ion-content>

@@ -1,123 +1,80 @@
-
+// --- VARIABLES GLOBALES DEL COMPONENTE ---
 ion-content {
+  // Transición suave para el cambio de tema
+  --transition: background 0.5s ease-in-out, color 0.5s ease-in-out;
+  
+  // Variables CSS por defecto (Tema Claro)
+  --page-background: #f4f5f8;
+  --page-text: #000000;
+  --card-bg: #ffffff;
+  --slide-bg: transparent;
+
+  // Aplicación de variables
   --background: var(--page-background);
-  --color: var(--page-text);
+  color: var(--page-text);
 }
 
+// --- TEMA OSCURO (Clase condicionada en el HTML) ---
+ion-content.dark-theme {
+  --page-background: #121212;
+  --page-text: #ffffff;
+  --card-bg: #1e1e1e;
+}
+
+// --- ESTILOS DE SLIDES ---
 .slide-content {
   text-align: center;
-  padding: 10px;
-  background-color: transparent; 
-}
-
-.slide-content img {
-  width: 100%;
-  max-width: 300px;
-  height: auto;
-  border-radius: 10px;
-  margin: 10% 0;
-}
-
-.slide-content h2 {
-  margin: 0;
-  font-size: 2.5rem;
-  
-  color: var(--color-slide-title);
-  transition: color 0.3s ease;
-}
-
-.slide-content p {
-  font-size: 20px;
- 
-  color: var(--page-text); 
-  text-align: justify;
-}
-
-
-ion-card.bg-card-test {
-  
-  --background: var(--color-fondo-tarjeta);
-  --color: var(--color-texto-tarjeta);
-  
-  margin-top: var(--espaciado-grande); 
-  
-  padding: var(--espaciado-base); 
-  
-  transition: all 0.3s ease;
-  
-  ion-card-title {
-    color: var(--color-slide-title);
-  }
-}
-
-.fondo {
-  
-  background: var(--page-background); 
-
-ion-content {
-  --background: var(--page-background);
-  --color: var(--page-text);
- 
-  --transition: background 0.5s ease-in-out, color 0.5s ease-in-out; 
-}
-
-
-.hola-mundo-box {
   padding: 20px;
-  margin: 20px 0;
-  border-radius: 15px; 
-  text-align: center;
-  font-weight: bold;
-  font-size: 1.2rem;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1); 
-  
- 
-  transition: background-color 0.5s ease;
-  
- 
-  color: #333; 
-}
-
-
-.slide-content {
-  text-align: center;
-  padding: 10px;
-  border-radius: 10px;
-  transition: all 0.5s ease; 
+  background-color: var(--slide-bg);
 
   img {
     width: 100%;
     max-width: 300px;
     height: auto;
-    border-radius: 10px;
-    margin: 10% 0;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    border-radius: 15px;
+    margin: 20px 0;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2); // Sombra mejorada
   }
 
   h2 {
     margin: 0;
-    font-size: 2.5rem;
-    color: var(--color-slide-title);
-    transition: color 0.5s ease; 
+    font-size: 2rem;
+    font-weight: bold;
+    // El color del título debe reaccionar al tema o tener variable propia
+    color: var(--page-text); 
   }
 
   p {
-    font-size: 20px;
+    font-size: 1rem;
     color: var(--page-text);
+    opacity: 0.8;
     text-align: justify;
-    transition: color 0.5s ease;
+    line-height: 1.4;
   }
 }
 
+// --- ESTILOS DE CAJAS Y TARJETAS ---
+.hola-mundo-box {
+  padding: 20px;
+  margin: 20px;
+  border-radius: 15px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.2rem;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  transition: background-color 0.5s ease;
+  color: #333; // Texto oscuro para contraste si el fondo es claro/colorido
+}
 
 .bg-card-test {
-  --background: var(--color-fondo-tarjeta);
-  --color: var(--color-texto-tarjeta);
-  transition: all 0.5s ease; 
-  margin-top: 2rem;
+  margin: 20px;
+  --background: var(--card-bg); // Fondo dinámico
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
   
-  ion-card-title {
-    color: var(--color-slide-title);
+  ion-card-title, ion-card-subtitle, ion-card-content {
+    color: var(--page-text); // Texto dinámico
   }
 }
-}
+
+// Utilidades de texto (opcional si usas las clases de Ionic)
+.ion-text-center { text-align: center; }

@@ -1,59 +1,56 @@
 import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
-import { Router } from '@angular/router';
-import { StorageService } from '../services/storage-service'; 
+import { IonicModule, NavController } from '@ionic/angular';
+import { StorageService } from '../services/storage-service';
 
 @Component({
   selector: 'app-intro',
   templateUrl: './intro.page.html',
   styleUrls: ['./intro.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule],
+  imports: [IonicModule, CommonModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA] 
 })
 export class IntroPage implements OnInit {
 
-
+  // Usamos imágenes online para que te funcionen YA MISMO.
+  // Si quieres usar locales, cambia el link por 'assets/images/tu_foto.png'
   slides = [
-    {
-      title: "Bienvenido",
-      desc: "Disfruta de la mejor música en un solo lugar.",
-      image: "https://placehold.co/200x200/orange/white?text=Music",
-      class: "slide-orange"
+    { 
+      title: "Bienvenido", 
+      desc: "Toda tu música favorita en un solo lugar.", 
+      image: "https://cdn-icons-png.flaticon.com/512/5229/5229354.png", 
+      color: 'orange' 
     },
-    {
-      title: "Explora",
-      desc: "Descubre nuevos géneros y artistas cada día.",
-      image: "https://placehold.co/200x200/blue/white?text=Explore",
-      class: "slide-blue"
+    { 
+      title: "Explora", 
+      desc: "Descubre nuevos artistas y géneros cada día.", 
+      image: "https://cdn-icons-png.flaticon.com/512/2907/2907253.png", 
+      color: 'blue' 
     },
-    {
-      title: "Organiza",
-      desc: "Crea tus propias listas de reproducción favoritas.",
-      image: "https://placehold.co/200x200/purple/white?text=Lists",
-      class: "slide-purple"
-    },
-    {
-      title: "Comparte",
-      desc: "Envía tus canciones favoritas a tus amigos.",
-      image: "https://placehold.co/200x200/green/white?text=Share",
-      class: "slide-green"
+    { 
+      title: "Conecta", 
+      desc: "Comparte tus listas con amigos al instante.", 
+      image: "https://cdn-icons-png.flaticon.com/512/1534/1534348.png", 
+      color: 'green' 
     }
   ];
 
-  constructor(private router: Router, private storage: StorageService) { }
+  constructor(
+    private navCtrl: NavController, 
+    private storage: StorageService
+  ) { }
 
   ngOnInit() {}
 
   async finalizarIntro() {
-    console.log("Finalizando intro...");
+    console.log("Botón presionado: Guardando y saliendo...");
     
-   
+    // 1. Guardamos que ya vio la intro
     await this.storage.set('intro_visto', true);
     
-   
-    this.router.navigateByUrl('/Home');
+    // 2. Navegamos al LOGIN (porque no ha iniciado sesión aun)
+    // Usamos navigateRoot para que no pueda volver atrás a la intro
+    this.navCtrl.navigateRoot('/login'); 
   }
 }

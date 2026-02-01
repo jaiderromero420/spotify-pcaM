@@ -1,0 +1,53 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/login"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Crear Cuenta</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="register-container">
+    <h2 class="ion-text-center">Regístrate</h2>
+    
+    <form [formGroup]="registerForm" (ngSubmit)="registerUser()">
+      
+      <ion-item lines="none" class="custom-input">
+        <ion-icon slot="start" name="person-outline"></ion-icon>
+        <ion-input label="Nombre" label-placement="floating" formControlName="name"></ion-input>
+      </ion-item>
+      <div class="error-msg" *ngIf="registerForm.get('name')?.hasError('required') && registerForm.get('name')?.touched">
+        Nombre requerido
+      </div>
+
+      <ion-item lines="none" class="custom-input">
+        <ion-icon slot="start" name="person-outline"></ion-icon>
+        <ion-input label="Apellido" label-placement="floating" formControlName="last_name"></ion-input>
+      </ion-item>
+       <div class="error-msg" *ngIf="registerForm.get('last_name')?.hasError('required') && registerForm.get('last_name')?.touched">
+        Apellido requerido
+      </div>
+
+      <ion-item lines="none" class="custom-input">
+        <ion-icon slot="start" name="mail-outline"></ion-icon>
+        <ion-input label="Email" label-placement="floating" type="email" formControlName="email"></ion-input>
+      </ion-item>
+       <ion-item lines="none" class="custom-input">
+        <ion-icon slot="start" name="lock-closed-outline"></ion-icon>
+        <ion-input label="Contraseña" label-placement="floating" type="password" formControlName="password">
+             <ion-input-password-toggle slot="end"></ion-input-password-toggle>
+        </ion-input>
+      </ion-item>
+       <ion-button expand="block" type="submit" [disabled]="!registerForm.valid" class="ion-margin-top">
+        Registrarse
+      </ion-button>
+    
+    </form>
+    
+    <div class="ion-text-center ion-margin-top">
+      <p>¿Ya tienes cuenta?</p>
+      <ion-button fill="clear" (click)="goToLogin()">Inicia Sesión aquí</ion-button>
+    </div>
+  </div>
+</ion-content>
