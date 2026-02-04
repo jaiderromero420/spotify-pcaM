@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonicModule, ModalController, NavParams } from '@ionic/angular'; // Importante: ModalController y NavParams
+import { IonicModule, ModalController, NavParams } from '@ionic/angular'; 
 import { Song } from '../services/music.service';
 
 @Component({
@@ -12,12 +12,12 @@ import { Song } from '../services/music.service';
 })
 export class SongsModalPage implements OnInit {
 
-  song: Song | null = null; // Aquí guardaremos la canción que nos pasen
+  song: Song | null = null; 
   albumTitle: string = "Detalles";
 
   constructor(
     private modalCtrl: ModalController,
-    private navParams: NavParams // Para recibir datos
+    private navParams: NavParams 
   ) { }
 
   ngOnInit() {
