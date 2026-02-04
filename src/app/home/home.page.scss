@@ -1,80 +1,86 @@
 
-ion-content {
+@keyframes green-fire {
+  0% { text-shadow: 0 0 2px #39ff14, 0 0 10px #39ff14; transform: scale(1); }
+  50% { text-shadow: 0 0 10px #39ff14, 0 0 20px #00ff00; transform: scale(1.1); }
+  100% { text-shadow: 0 0 2px #39ff14, 0 0 10px #39ff14; transform: scale(1); }
+}
 
-  --transition: background 0.5s ease-in-out, color 0.5s ease-in-out;
-  
 
-  --page-background: #f4f5f8;
-  --page-text: #000000;
+.xbox-content {
+  --background: #101010; 
+  --text-color: #ffffff;
+  --accent-color: #107C10; 
+  --accent-neon: #39ff14; 
+  --card-bg: #1f1f1f;
+}
+
+
+:host-context(body.light-theme) .xbox-content,
+.xbox-content.light-theme {
+  --background: #fdfbf7; 
+  --text-color: #2c2c2c;
+  --accent-color: #d35400; 
+  --accent-neon: #e67e22;
   --card-bg: #ffffff;
-  --slide-bg: transparent;
-
-
-  --background: var(--page-background);
-  color: var(--page-text);
 }
 
 
-ion-content.dark-theme {
-  --page-background: #121212;
-  --page-text: #ffffff;
-  --card-bg: #1e1e1e;
+ion-content {
+  --background: var(--background);
+  color: var(--text-color);
+  transition: --background 0.5s ease;
 }
 
-
-.slide-content {
-  text-align: center;
-  padding: 20px;
-  background-color: var(--slide-bg);
-
-  img {
-    width: 100%;
-    max-width: 300px;
-    height: auto;
-    border-radius: 15px;
-    margin: 20px 0;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2); 
-  }
-
-  h2 {
-    margin: 0;
-    font-size: 2rem;
-    font-weight: bold;
-   
-    color: var(--page-text); 
-  }
-
-  p {
-    font-size: 1rem;
-    color: var(--page-text);
-    opacity: 0.8;
-    text-align: justify;
-    line-height: 1.4;
+ion-toolbar {
+  --background: transparent;
+  .xbox-title {
+    font-weight: 900;
+    letter-spacing: 2px;
+    color: var(--text-color);
+    font-style: italic;
   }
 }
 
-
-.hola-mundo-box {
-  padding: 20px;
-  margin: 20px;
-  border-radius: 15px;
-  text-align: center;
-  font-weight: bold;
-  font-size: 1.2rem;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-  transition: background-color 0.5s ease;
-  color: #333;
-}
-
-.bg-card-test {
-  margin: 20px;
-  --background: var(--card-bg);
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  
-  ion-card-title, ion-card-subtitle, ion-card-content {
-    color: var(--page-text);
+.hero-section {
+  padding: 15px;
+  .hero-card {
+    position: relative; width: 100%; height: 220px; border-radius: 15px; overflow: hidden;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+    img { width: 100%; height: 100%; object-fit: cover; }
+    .hero-overlay {
+      position: absolute; bottom: 0; left: 0; width: 100%; padding: 20px;
+      background: linear-gradient(to top, black, transparent);
+      h1 { color: white; margin: 0; font-size: 1.8rem; font-weight: 800; text-transform: uppercase; }
+      p { color: var(--accent-neon); margin: 5px 0 0 0; font-weight: 600; }
+    }
   }
 }
 
+.category-buttons {
+  display: flex; gap: 15px;
+  .xbox-btn {
+    flex: 1; --background: var(--accent-color); --border-radius: 8px; font-weight: 700; text-transform: uppercase;
+    &.outline { --background: transparent; --border-color: var(--accent-color); --color: var(--accent-color); --border-width: 2px; }
+  }
+}
 
-.ion-text-center { text-align: center; }
+.section-title {
+  display: flex; justify-content: space-between; padding: 0 20px; align-items: center;
+  h2 { font-size: 1.2rem; font-weight: 700; border-left: 4px solid var(--accent-neon); padding-left: 10px; color: var(--text-color); }
+  span { color: var(--text-color); opacity: 0.7; font-size: 0.8rem; display: flex; align-items: center; gap: 5px; }
+}
+
+.xbox-list {
+  background: transparent; padding: 10px;
+  .xbox-item {
+    --background: var(--card-bg); --padding-start: 10px; --inner-padding-end: 10px;
+    border-radius: 8px; margin-bottom: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    .play-indicator {
+      width: 30px; height: 30px; background: rgba(0,0,0,0.1); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center; margin-right: 10px;
+      ion-icon { color: var(--accent-neon); font-size: 0.8rem; }
+    }
+    .song-thumb { width: 50px; height: 50px; border-radius: 4px; overflow: hidden; margin-right: 15px; }
+    ion-label { h3 { font-weight: 700; color: var(--text-color); } p { color: var(--text-color); opacity: 0.6; } }
+  }
+}

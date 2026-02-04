@@ -1,0 +1,30 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="light">
+    <ion-title>{{ albumTitle }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">Cerrar</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding ion-text-center">
+  
+  <div *ngIf="song" class="player-container">
+    <img [src]="song.image" alt="Cover" class="album-cover">
+    
+    <h2>{{ song.title }}</h2>
+    <p>{{ song.artist }}</p>
+
+    <audio controls [src]="song.url" style="width: 100%; margin-top: 20px;"></audio>
+    
+    <div class="ion-margin-top">
+       <ion-chip color="primary">
+         <ion-label>{{ song.genre }}</ion-label>
+       </ion-chip>
+       <ion-chip outline>
+         <ion-label>{{ song.duration }}</ion-label>
+       </ion-chip>
+    </div>
+  </div>
+
+</ion-content>

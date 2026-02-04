@@ -1,0 +1,39 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="transparent">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/menu/home" color="success" text="Volver"></ion-back-button>
+    </ion-buttons>
+    <ion-title style="color: #39ff14; font-weight: bold;">MIS FAVORITOS</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="xbox-content">
+  
+  <div *ngIf="favoriteSongs.length === 0" class="empty-state ion-text-center ion-padding" style="margin-top: 50px;">
+    <ion-icon name="heart-dislike-outline" style="font-size: 60px; color: #555;"></ion-icon>
+    <h3 style="color: white;">No tienes favoritos aún</h3>
+    <p style="color: gray;">Ve al Home y guarda tus canciones preferidas</p>
+  </div>
+
+  <ion-list lines="none" style="background: transparent;">
+    <ion-item *ngFor="let song of favoriteSongs" class="xbox-item" style="--background: #1f1f1f; margin-bottom: 10px; border-radius: 10px;">
+      
+      <ion-thumbnail slot="start" style="border-radius: 5px; overflow: hidden;">
+        <img [src]="song.image" alt="cover">
+      </ion-thumbnail>
+
+      <ion-label style="color: white;">
+        <h3>{{ song.title }}</h3>
+        <p style="color: #39ff14;">{{ song.artist }}</p>
+      </ion-label>
+
+      <ion-buttons slot="end">
+        <ion-button color="danger" (click)="borrarFavorito(song)">
+          <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+
+    </ion-item>
+  </ion-list>
+
+</ion-content>

@@ -1,139 +1,191 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router'; 
-import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import { IonicModule, ModalController, MenuController, ToastController, ActionSheetController, NavController } from '@ionic/angular';
+import { MusicService, Song } from '../services/music.service';
+import { StorageService } from '../services/storage-service';
+import { addIcons } from 'ionicons';
+import { logoYen, musicalNotes, albums, play, ellipsisVertical, contrastOutline, heart, heartOutline, pause, person, close, folderOpenOutline, musicalNote, playSkipForward } from 'ionicons/icons';
+import { register } from 'swiper/element/bundle';
 
-
-import { 
-  IonHeader, IonToolbar, IonTitle, IonContent, 
-  IonButton, IonCard, IonCardHeader, IonCardTitle, 
-  IonCardSubtitle, IonCardContent 
-} from '@ionic/angular/standalone';
-
-
-import { StorageService } from '../services/storage-service'; 
+register();
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
-  standalone: true, 
-  imports: [
-    IonHeader, IonToolbar, IonTitle, IonContent, 
-    IonButton, IonCard, IonCardHeader, IonCardTitle, 
-    IonCardSubtitle, IonCardContent, 
-    CommonModule
-  ],
+  standalone: true,
+  imports: [IonicModule, CommonModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class HomePage implements OnInit {
-  
-  
-  isDarkTheme: boolean = false;
-  colorClaro = '#f80707'; 
-  colorOscuro = '#00ff37'; 
-  colorActual = this.colorClaro; 
 
+  favorites: Song[] = [];
+  isDarkTheme: boolean = true; 
+  songs: Song[] = [];
+  allSongs: Song[] = []; 
   
-  genres = [
-    {
-      title: "Musica Clasica",
-      image: "https://media.istockphoto.com/id/483289581/es/v%C3%ADdeo/notas-musicales.jpg?s=640x640&k=20&c=_q_AyHADfGhLB_FOd5picGz3kTOGs18vtjQOhq7yIbw=",
-      class: "fondo",
-      description: "La música clásica es un género musical de tradición occidental."
-    },
-    {
-      title: "Hip-Hop",
-      image: "https://i.ytimg.com/vi/ADdpLv3RDhA/hqdefault.jpg",
-      description: "Género originado en los años 70 en Nueva York."
-    },
-    {
-      title: "Pop",
-      image: "https://expocompositores.com/cdn/shop/articles/unnamed_7_6f257b74-010b-41ae-98ba-06fbaa0df96d.jpg?v=1717946881",
-      description: "Género musical orientado al consumo masivo."
-    },
-    {
-      title: "Electronica",
-      image: "https://i.ytimg.com/vi/ueltGC-O2Gs/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLA7O6HAvo3W_AUJJgE6syrbuU7RRQ",
-      description: "Música creada principalmente con instrumentos electrónicos."
-    },
-    {
-      title: "Rock",
-      image: "https://static.vecteezy.com/system/resources/thumbnails/049/286/641/small/rockstar-aestheticsgraphy-photo.jpeg",
-      description: "Surgido en los años 50, uso prominente de guitarras."
-    },
-    {
-      title: "Metal",
-      image: "https://cdn.pixabay.com/photo/2015/10/21/16/39/metal-999958_640.jpg",
-      description: "Subgénero del rock, alta distorsión."
-    },
-    {
-      title: "Reggaeton",
-      image: "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da8428b9288398c47498847be403",
-      description: "Género musical originario de Panamá y Puerto Rico."
-    },
-  ];
+  song: any = {
+    name: '',
+    preview_url: '',
+    playing: false,
+    artist: '',
+    image: ''
+  };
 
+  currentSongData: Song | null = null;
+  currentAudio: HTMLAudioElement | null = null;
+  newTime: number = 0;
 
   constructor(
-    private storageService: StorageService, 
-    private router: Router
-  ) {}
-
- 
-  async ngOnInit() {
-   
-    await this.loadStorageData();
-   
-    this.simularCargaDatos();
+    private musicService: MusicService,
+    private storage: StorageService,
+    private modalCtrl: ModalController,
+    private menuCtrl: MenuController,
+    private toastCtrl: ToastController,
+    private actionSheetCtrl: ActionSheetController,
+    private navCtrl: NavController
+  ) {
+    addIcons({ logoYen, musicalNotes, albums, play, ellipsisVertical, contrastOutline, heart, heartOutline, pause, person, close, folderOpenOutline, musicalNote, playSkipForward });
   }
 
-
-  async cambiarColor() {
-    this.isDarkTheme = !this.isDarkTheme;
-    this.colorActual = this.isDarkTheme ? this.colorOscuro : this.colorClaro;
-    
-  
-    await this.storageService.set('theme', this.colorActual);
-    console.log('Tema guardado:', this.colorActual);
+  ngOnInit() {
+    this.menuCtrl.enable(true, 'first');
+    this.cargarCanciones();
+    this.loadFavorites();
   }
 
-  async loadStorageData() {
-    const savedThemeColor = await this.storageService.get('theme');
-
-    if (savedThemeColor) {
-      this.colorActual = savedThemeColor;
-
-     
-      if (savedThemeColor === this.colorOscuro) {
-        this.isDarkTheme = true;
-      } else {
-        this.isDarkTheme = false;
-      }
-    }
-  }
-
-  
-  async simularCargaDatos() {
-    const data = await this.obtenerDatosSimulados();
-    console.log('Datos simulados: ', data);
-  }
-
-  obtenerDatosSimulados() {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(['rock', 'pop', 'electronica']);
-      }, 3000);
+  cargarCanciones() {
+    this.musicService.getSongs().subscribe((data) => {
+      this.allSongs = data;
+      this.songs = data;
     });
   }
 
+  openMenu() {
+    this.menuCtrl.open('first');
+  }
   
-  async verIntroNuevamente() {
-   
-    await this.storageService.remove('intro_visto');
-    console.log('Intro reiniciada. Redirigiendo a intro...');
-    
-   
-    this.router.navigateByUrl('/intro');
+  showSong(song: Song) {
+    if (this.currentSongData && this.currentSongData.id === song.id) {
+      if (this.song.playing) this.pause();
+      else this.play();
+      return;
+    }
+
+    this.currentSongData = song;
+    this.song = { 
+      name: song.title, 
+      artist: song.artist,
+      image: song.image,
+      preview_url: song.url, 
+      playing: false 
+    };
+
+    this.play();
+  }
+
+  play() {
+    if (this.currentAudio) {
+        if (this.currentAudio.src !== this.song.preview_url) {
+            this.currentAudio.pause();
+            this.currentAudio = new Audio(this.song.preview_url);
+        }
+    } else {
+        this.currentAudio = new Audio(this.song.preview_url);
+    }
+
+    this.currentAudio.play();
+    this.song.playing = true;
+
+    this.currentAudio.addEventListener('timeupdate', () => {
+      if(this.currentAudio && this.currentAudio.duration) {
+        this.newTime = this.currentAudio.currentTime / this.currentAudio.duration;
+      }
+    });
+
+    this.currentAudio.addEventListener('ended', () => { 
+      this.nextSong(); 
+    });
+  }
+
+  pause() {
+    if (this.currentAudio) {
+      this.currentAudio.pause();
+      this.song.playing = false;
+    }
+  }
+
+  nextSong() {
+    if (!this.currentSongData) return;
+    const currentIndex = this.songs.findIndex(s => s.id === this.currentSongData?.id);
+    let nextIndex = currentIndex + 1;
+    if (nextIndex >= this.songs.length) {
+      nextIndex = 0;
+    }
+    const nextSong = this.songs[nextIndex];
+    this.showSong(nextSong);
+  }
+
+  formatTime(seconds: number) {
+    if (!seconds || isNaN(seconds)) return "0:00";
+    const m = Math.floor(seconds / 60);
+    const s = Math.floor(seconds % 60);
+    return `${m}:${s.toString().padStart(2, '0')}`;
+  }
+
+  getRemainingTime() {
+    if (!this.currentAudio) return 0;
+    return (this.currentAudio.duration || 30) - (this.currentAudio.currentTime || 0);
+  }
+
+  async abrirFiltroGeneros() {
+    const generos = [...new Set(this.allSongs.map(s => s.genre))];
+    const botones = generos.map(g => ({
+      text: g,
+      icon: 'musical-notes',
+      handler: () => { this.songs = this.allSongs.filter(s => s.genre === g); }
+    }));
+    botones.push({ text: 'Ver Todos', icon: 'close', handler: () => { this.songs = this.allSongs; } });
+    const actionSheet = await this.actionSheetCtrl.create({ header: 'Filtrar', buttons: botones });
+    await actionSheet.present();
+  }
+
+  async abrirFiltroAlbumes() {
+    this.songs = this.allSongs;
+    this.presentToast("Mostrando todas las canciones");
+  }
+
+  async loadFavorites() {
+    const favs = await this.storage.get('favorites');
+    if (favs) this.favorites = favs;
+  }
+
+  isFavorite(song: Song): boolean {
+    return this.favorites.some(f => f.id === song.id);
+  }
+
+  async toggleFavorite(song: Song, event: Event) {
+    event.stopPropagation();
+    if (this.isFavorite(song)) {
+      this.favorites = this.favorites.filter(f => f.id !== song.id);
+    } else {
+      this.favorites.push(song);
+    }
+    await this.storage.set('favorites', this.favorites);
+  }
+
+  irAFavoritos() {
+    this.navCtrl.navigateForward('/menu/favorites');
+  }
+
+
+  cambiarColor() { 
+    this.isDarkTheme = !this.isDarkTheme; 
+    document.body.classList.toggle('light-theme');
+  }
+  
+  async presentToast(msg: string) {
+    const t = await this.toastCtrl.create({ message: msg, duration: 1500, position: 'bottom', color: 'dark' });
+    t.present();
   }
 }

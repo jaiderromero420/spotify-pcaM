@@ -1,0 +1,50 @@
+<ion-split-pane contentId="main-content" when="md">
+  
+  <ion-menu contentId="main-content" menuId="first" type="overlay">
+    
+    <ion-header class="ion-no-border">
+      <ion-toolbar class="menu-header">
+        <ion-title class="menu-title">X-MUSIC MENU</ion-title>
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-content class="menu-content">
+      <ion-list lines="none">
+        
+        <ion-menu-toggle auto-hide="false">
+          <ion-item button routerLink="/menu/home" detail="false" class="menu-item selected">
+            <ion-icon slot="start" name="home"></ion-icon>
+            <ion-label>Home</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+
+        <ion-item button (click)="toggleTheme()" detail="false" class="menu-item">
+          <ion-icon slot="start" name="contrast-outline"></ion-icon>
+          <ion-label>Cambiar Tema</ion-label>
+        </ion-item>
+
+        <ion-menu-toggle auto-hide="false">
+          <ion-item button (click)="verIntro()" detail="false" class="menu-item">
+            <ion-icon slot="start" name="videocam-outline"></ion-icon>
+            <ion-label>Ver Intro</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+
+        <div style="height: 1px; background: #333; margin: 15px 0;"></div>
+
+        <ion-menu-toggle auto-hide="false">
+          <ion-item button (click)="cerrarSesion()" detail="false" class="menu-item logout-item">
+            <ion-icon slot="start" name="log-out-outline"></ion-icon>
+            <ion-label>Cerrar Sesión</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+
+      </ion-list>
+    </ion-content>
+  </ion-menu>
+
+  <div class="ion-page" id="main-content">
+    <ion-router-outlet></ion-router-outlet>
+  </div>
+
+</ion-split-pane>

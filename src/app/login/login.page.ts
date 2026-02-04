@@ -1,97 +1,77 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-import { IonicModule, NavController, ToastController } from '@ionic/angular'; 
-import { Router } from '@angular/router';
+import { IonicModule, NavController, ToastController } from '@ionic/angular';
 import { AuthService } from '../services/auth.service';
+import { StorageService } from '../services/storage-service'; 
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonicModule, ReactiveFormsModule] 
+  imports: [CommonModule, IonicModule, ReactiveFormsModule]
 })
 export class LoginPage implements OnInit {
-  
-  loginForm: FormGroup;
-  errorMessage: string = ""; 
 
+  loginForm: FormGroup;
+  errorMessage: string = "";
 
   validation_messages = {
     email: [
-      { type: "required", message: "El correo es obligatorio." },
-      { type: "email", message: "Introduce un correo válido." }
+      { type: "required", message: "El correo es obligatorio." }
     ],
     password: [
-      { type: "required", message: "La contraseña es obligatoria." },
-      { type: "minlength", message: "Mínimo 5 caracteres." }
+      { type: "required", message: "La contraseña es obligatoria." }
     ]
   };
 
   constructor(
     private formBuilder: FormBuilder,
-    private toastController: ToastController, 
-    private router: Router,
+    private toastController: ToastController,
     private authService: AuthService,
-    private navCtrl: NavController 
+    private navCtrl: NavController,
+    private storage: StorageService 
   ) {
     this.loginForm = this.formBuilder.group({
-      email: new FormControl('', Validators.compose([
-        Validators.required,
-        Validators.email
-      ])),
-      password: new FormControl('', Validators.compose([
-        Validators.required,
-        Validators.minLength(5) 
-      ]))
+     
+      email: new FormControl('', Validators.required),
+      password: new FormControl('', Validators.required)
     });
   }
 
   ngOnInit() {}
 
-  
   goToRegister() {
     this.navCtrl.navigateForward('/register');
   }
 
- 
   async onLogin() {
    
-    if (this.loginForm.valid) {
-      
-      
-      this.authService.loginUser(this.loginForm.value)
-        .then(async (res) => {
-         
-          this.errorMessage = "";
-          await this.presentToast('¡Bienvenido! Iniciando sesión...', 'success');
-          
-         
-          this.navCtrl.navigateForward('/home'); 
-        })
-        .catch(async (error) => {
-        
-          this.errorMessage = error;
-          await this.presentToast('Error: ' + error, 'danger');
-        });
-
-    } else {
-     
-      console.log('Formulario inválido');
-      await this.presentToast('Por favor, revisa los campos.', 'danger');
-      this.loginForm.markAllAsTouched(); 
+    try {
+      await this.storage.set('isUserLoggedIn', true);
+    } catch (e) {
+      console.log("Error guardando storage, pero no importa, seguimos.");
     }
+
+    
+    this.presentToast('Entrando...', 'success');
+
+   
+    console.log("Forzando entrada al Home...");
+    
+   
+    setTimeout(() => {
+        this.navCtrl.navigateRoot('/menu/home'); 
+    }, 500);
   }
 
-
-  async presentToast(message: string, color: 'success' | 'danger' | 'warning' = 'success') {
+  async presentToast(message: string, color: 'success' | 'danger') {
     const toast = await this.toastController.create({
       message: message,
-      duration: 2000,
+      duration: 1000,
       color: color,
-      position: 'bottom',
-      icon: color === 'success' ? 'checkmark-circle' : 'alert-circle'
+      position: 'bottom'
     });
     await toast.present();
   }

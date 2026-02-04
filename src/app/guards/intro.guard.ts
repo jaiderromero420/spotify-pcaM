@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
-import { StorageService } from '../services/storage-service'; 
+import { StorageService } from '../services/storage-service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,15 +11,15 @@ export class IntroGuard implements CanActivate {
 
   async canActivate(): Promise<boolean> {
    
-    const introSeen = await this.storage.get('intro_visto');
+    const introVisto = await this.storage.get('intro_visto');
 
-  
-    if (introSeen === true) {
-      return true;
+    if (introVisto) {
+    
+      this.router.navigateByUrl('/login');
+      return false; 
     } else {
-     
-      this.router.navigateByUrl('/intro');
-      return false;
+    
+      return true;
     }
   }
 }

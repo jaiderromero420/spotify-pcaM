@@ -6,12 +6,12 @@ import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-register',
-  templateUrl: './register.page.html',
+  templateUrl: './register.page.html', 
   styleUrls: ['./register.page.scss'],
   standalone: true,
   imports: [CommonModule, IonicModule, ReactiveFormsModule]
 })
-export class RegisterPage implements OnInit {
+export class RegisterPage implements OnInit { 
 
   registerForm: FormGroup;
 
@@ -60,8 +60,8 @@ export class RegisterPage implements OnInit {
         await this.authService.registerUser(this.registerForm.value);
         this.presentToast('Registro exitoso. Inicia sesión.', 'success');
         this.navCtrl.navigateBack('/login'); 
-      } catch (error) {
-        this.presentToast('Error al registrar.', 'danger');
+      } catch (error: any) {
+        this.presentToast('Error al registrar: ' + (error.message || error), 'danger');
       }
     } else {
       this.registerForm.markAllAsTouched();
